@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  django:
+    build: .
+    command: >
+      sh -c "
+        python manage.py makemigrations &&
+        python manage.py migrate &&
+        python manage.py collectstatic --no-input &&
+        python manage.py runserver 0.0.0.0:8000
+      "
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings
+    volumes:
+      - .:/quera
+    restart: always
+    ports:
+      - "8080:8000"
